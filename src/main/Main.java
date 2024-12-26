@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        VideoService videoService = new VideoServiceImpl(new FileVideoRepository("videos.txt"));
+        VideoService videoService = new VideoServiceImpl(new FileVideoRepository());
         SearchStrategy searchStrategy = new TitleSearchStrategy();
 
         while (true) {
