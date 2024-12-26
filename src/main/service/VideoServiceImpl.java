@@ -14,7 +14,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public void addVideo(Video video) {
-        repository.save(video);
+        repository.saveAll(List.of(video));
     }
 
     @Override
