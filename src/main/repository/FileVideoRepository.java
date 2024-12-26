@@ -7,35 +7,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileVideoRepository implements VideoRepository {
-    private final File file;
+    private final static String FILENAME = "videos.txt";
 
-    public FileVideoRepository(String filePath) {
-        this.file = new File(filePath);
-    }
 
     @Override
-    public void save(Video video) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-            bw.write(video.toString());
-            bw.newLine();
+    public void saveAll(List<Video> videos) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
+            for (Video video : videos) {
+                writer.write(video.toString());
+                writer.newLine();
+            }
         } catch (IOException e) {
-            // Ignorar erros por enquanto
+            throw new RuntimeException("Erro ao escrever no arquivo " + FILENAME, e);
         }
     }
 
     @Override
     public List<Video> findAll() {
         List<Video> videos = new ArrayList<>();
+        File file = new File(FILENAME);
+
+        if (!file.exists()) {
+            return videos;
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                Video video = Video.fromString(line);
-                if (video != null) {
-                    videos.add(video);
+                try {
+                    Video video = Video.fromString(line);
+                    if (video != null) {
+                        videos.add(video);
+                    }
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Linha ignorada devido a erro de formatação: " + line);
                 }
             }
         } catch (IOException e) {
-            // Ignorar erros por enquanto
+            throw new RuntimeException("Erro ao ler o arquivo " + FILENAME, e);
         }
         return videos;
     }
