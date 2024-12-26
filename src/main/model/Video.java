@@ -50,7 +50,19 @@ public class Video {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
         } catch (Exception e) {
-            return null; // Ignora erros de parsing
+            throw new IllegalArgumentException("Erro ao converter video: " + linha);
         }
+    }
+    public void validarVideo() {
+        if (this.titulo == null || this.titulo.trim().isEmpty()) {
+            throw new IllegalArgumentException("O título do vídeo deve ser preenchido.");
+        }
+        if (this.descricao == null || this.descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException("A descrição do vídeo deve ser preenchida.");
+        }
+        if (this.duracao <= 0) {
+            throw new IllegalArgumentException("A duração do vídeo deve ser maior que zero.");
+        }
+
     }
 }
