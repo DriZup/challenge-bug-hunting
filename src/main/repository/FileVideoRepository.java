@@ -12,7 +12,7 @@ public class FileVideoRepository implements VideoRepository {
 
     @Override
     public void saveAll(List<Video> videos) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILENAME, false))) {
             for (Video video : videos) {
                 writer.write(video.toString());
                 writer.newLine();
