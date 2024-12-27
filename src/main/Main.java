@@ -33,23 +33,40 @@ public class Main {
                 String titulo = scanner.nextLine();
                 System.out.print("Digite a descrição do vídeo: ");
                 String descricao = scanner.nextLine();
-                System.out.print("Digite a duração do vídeo (em minutos): ");
-                int duracao = scanner.nextInt();
+                int duracao = -1;
+                while (duracao <= 0) {
+                    System.out.print("Digite a duração em minutos: ");
+                    try {
+                        duracao = scanner.nextInt();
+                        if (duracao <= 0) {
+                            System.out.println("A duração deve ser um número positivo.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro de entrada. A duração deve ser um número.");
+                        scanner.nextLine(); // Consumir a quebra de linha do erro
+                    }
+                }
                 scanner.nextLine(); // Consumir a quebra de linha
                 System.out.print("Digite a categoria do vídeo: ");
                 String categoria = scanner.nextLine();
-                System.out.print("Digite a data de publicação (dd/MM/yyyy): ");
-                String dataStr = scanner.nextLine();
 
-                try {
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                    Date dataPublicacao = sdf.parse(dataStr);
-                    Video video = new Video(titulo, descricao, duracao, categoria, dataPublicacao);
-                    videoService.addVideo(video);
-                    System.out.println("Vídeo adicionado com sucesso!");
-                } catch (Exception e) {
-                    System.out.println("Erro ao adicionar vídeo.");
+                Date dataPublicacao = null;
+                while (dataPublicacao == null) {
+                    System.out.print("Digite a data de publicação (dd/MM/yyyy): ");
+                    String dataStr = scanner.nextLine();
+                    try {
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                        dataPublicacao = sdf.parse(dataStr);
+                    } catch (Exception e) {
+                        System.out.println("Data inválida. Tente novamente.");
+                    }
                 }
+
+                // Adicionar o vídeo
+                Video video = new Video(titulo, descricao, duracao, categoria, dataPublicacao);
+                videoService.addVideo(video);
+                System.out.println("Vídeo adicionado com sucesso!");
+
             } else if (opcao == 2) {
                 List<Video> videos = videoService.listVideos();
                 for (Video video : videos) {
