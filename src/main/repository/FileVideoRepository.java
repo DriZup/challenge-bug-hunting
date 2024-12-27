@@ -28,10 +28,12 @@ public class FileVideoRepository implements VideoRepository {
         File file = new File(FILENAME);
 
         if (!file.exists()) {
+            System.err.println("Arquivo não encontrado: " + FILENAME);
             return videos;
         }
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
+
             while ((line = br.readLine()) != null) {
                 try {
                     Video video = Video.fromString(line);
@@ -39,7 +41,7 @@ public class FileVideoRepository implements VideoRepository {
                         videos.add(video);
                     }
                 } catch (IllegalArgumentException e) {
-                    System.err.println("Linha ignorada devido a erro de formatação: " + line);
+                    System.out.println("Erro ao ler o arquivo " + line);
                 }
             }
         } catch (IOException e) {
