@@ -1,6 +1,6 @@
-package service;
+package main.service;
 
-import model.Video;
+import main.model.Video;
 
 import java.util.List;
 
