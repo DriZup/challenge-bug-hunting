@@ -1,48 +1,32 @@
 package main.repository;
 
+import main.FileHandler.FileHandler;
 import main.model.Video;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FileVideoRepository implements VideoRepository {
-    private final File file;
+    private final FileHandler fileHandler;
 
     public FileVideoRepository(String filePath) {
-        this.file = new File(filePath);
-        try {
-            if(file.createNewFile()){
-                System.out.println("Arquivo criado: " + file.getName());
-            }
-        }catch(IOException e){
-            System.out.println("Error ao criar o arquivo: " + e.getMessage());
-        }
+        this.fileHandler = new FileHandler(filePath);
     }
 
     @Override
     public void save(Video video) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, true))) {
-            bw.write(video.toString());
-            bw.newLine();
-        } catch (IOException e) {
-            System.out.println("Error ao salvar Vídeo: " + e.getMessage());
-        }
+        fileHandler.writeToFile(video.toString());
     }
 
     @Override
     public List<Video> findAll() {
-        List<Video> videos = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                Video video = Video.fromString(line);
-                if (video != null) {
-                    videos.add(video);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error ao ler vídeos: " + e.getMessage());        }
-        return videos;
+        return fileHandler.readFromFile().stream()
+                .map(Video::fromString)
+                .filter(video -> video != null)
+                .collect(Collectors.toList());
     }
 }
+
+
