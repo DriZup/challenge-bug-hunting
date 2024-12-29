@@ -1,14 +1,12 @@
-package main.model;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Video {
-    private String titulo;
-    private String descricao;
-    private int duracao; // em minutos
-    private String categoria;
-    private Date dataPublicacao;
+    public String titulo;
+    public String descricao;
+    public int duracao; // em minutos
+    public String categoria;
+    public Date dataPublicacao;
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
         this.titulo = titulo;
@@ -16,27 +14,6 @@ public class Video {
         this.duracao = duracao;
         this.categoria = categoria;
         this.dataPublicacao = dataPublicacao;
-    }
-
-    public Date getDataPublicacao() {
-        return dataPublicacao;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public int getDuracao() {
-        return duracao;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-
-    public String getTitulo() {
-        return titulo;
     }
 
     @Override
@@ -51,7 +28,7 @@ public class Video {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
         } catch (Exception e) {
-            throw new IllegalArgumentException("Erro ao converter a linha: " + linha, e);
+            return null; // Ignora erros de parsing
         }
     }
 }
