@@ -80,9 +80,8 @@ public class Video {
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
             Date dataPublicacao = sdf.parse(partes[4]);
 
-            // Verificando se a descrição não está vazia
             if (descricao == null || descricao.trim().isEmpty()) {
-                descricao = "Sem descrição"; // Valor padrão
+                descricao = "Sem descrição";
             }
 
             return new Video(titulo, descricao, duracao, categoria, dataPublicacao);
