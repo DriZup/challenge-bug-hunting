@@ -26,8 +26,25 @@ public class Main {
             System.out.println("3. Pesquisar vídeo por título");
             System.out.println("4. Sair");
             System.out.print("Escolha uma opção: ");
-            int opcao = scanner.nextInt();
-            scanner.nextLine(); // Consumir a quebra de linha
+
+
+            int opcao = -1;
+            while (true) {
+                try {
+                    String input = scanner.nextLine();
+                    opcao = Integer.parseInt(input);
+                    if (opcao >= 1 && opcao <= 4) {
+                        break;  // Quebra o loop se a entrada for válida
+                    } else {
+                        System.out.println("Opção inválida. Tente novamente.");
+                        System.out.print("Escolha uma opção: ");
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada inválida. Por favor, digite um número.");
+                    System.out.print("Escolha uma opção: ");
+                }
+            }
 
             switch (opcao) {
                 case 1:
@@ -41,13 +58,13 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Saindo do sistema...");
+                    scanner.close();
                     return;
                 default:
                     System.out.println("Opção inválida, tente novamente.");
             }
         }
     }
-
 
     private static void addVideo(Scanner scanner, VideoService videoService) {
         try {
@@ -96,6 +113,5 @@ public class Main {
             resultados.forEach(System.out::println);
         }
 
-        scanner.close();
     }
 }
