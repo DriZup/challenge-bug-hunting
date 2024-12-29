@@ -1,10 +1,12 @@
 package main.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class Video {
-    private String titulo;
+private static ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(() -> new SimpleDateFormat("dd/MM/yyyy"));   private String titulo;
     private String descricao;
     private int duracao; // em minutos
     private String categoria;
@@ -14,6 +16,20 @@ public class Video {
 
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
+
+        if (titulo == null || titulo.isEmpty()) {
+            throw new IllegalArgumentException("O título não pode ser vazio");
+        }
+        if (descricao == null || descricao.isEmpty()) {
+            throw new IllegalArgumentException("A descrição não pode ser vazia");
+        }
+        if (duracao <= 0) {
+            throw new IllegalArgumentException("A duração deve ser maior que zero");
+        }
+        if (categoria == null || categoria.isEmpty()) {
+            throw new IllegalArgumentException("A categoria não pode ser vazia");
+        }
+
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
@@ -48,11 +64,19 @@ public class Video {
         return titulo + ";" + descricao + ";" + duracao + ";" + categoria + ";" + sdf.format(dataPublicacao);
     }
 
-    public static Video fromString(String linha) {
-        try {
-            String[] partes = linha.split(";");
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-            return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
+
+        public static Video fromString(String linha) {
+            try {
+                String[] partes = linha.split(";");
+                if (partes.length != 5) {
+                    throw new IllegalArgumentException("Linha mal formatada: " + linha);
+                }
+                SimpleDateFormat sdf = DATE_FORMATTER.get();
+                return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
+        } catch (ParseException e) {
+            throw new IllegalArgumentException("Erro ao converter data na linha: " + linha, e);
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Erro ao converter número na linha: " + linha, e);
         } catch (Exception e) {
             throw new IllegalArgumentException("Erro ao converter a linha: " + linha, e);
         }
