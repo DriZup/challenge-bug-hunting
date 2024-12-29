@@ -6,7 +6,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Video {
-private static ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(() -> new SimpleDateFormat("dd/MM/yyyy"));   private String titulo;
+    private static ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(() -> new SimpleDateFormat("dd/MM/yyyy"));
+    private String titulo;
     private String descricao;
     private int duracao; // em minutos
     private String categoria;
@@ -65,14 +66,26 @@ private static ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withIn
     }
 
 
-        public static Video fromString(String linha) {
-            try {
-                String[] partes = linha.split(";");
-                if (partes.length != 5) {
-                    throw new IllegalArgumentException("Linha mal formatada: " + linha);
-                }
-                SimpleDateFormat sdf = DATE_FORMATTER.get();
-                return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
+    public static Video fromString(String linha) {
+        try {
+            String[] partes = linha.split(";");
+            if (partes.length != 5) {
+                throw new IllegalArgumentException("Linha mal formatada: " + linha);
+            }
+
+            String titulo = partes[0];
+            String descricao = partes[1];
+            int duracao = Integer.parseInt(partes[2]);
+            String categoria = partes[3];
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            Date dataPublicacao = sdf.parse(partes[4]);
+
+            // Verificando se a descrição não está vazia
+            if (descricao == null || descricao.trim().isEmpty()) {
+                descricao = "Sem descrição"; // Valor padrão
+            }
+
+            return new Video(titulo, descricao, duracao, categoria, dataPublicacao);
         } catch (ParseException e) {
             throw new IllegalArgumentException("Erro ao converter data na linha: " + linha, e);
         } catch (NumberFormatException e) {
