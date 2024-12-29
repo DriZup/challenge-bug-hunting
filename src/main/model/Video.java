@@ -11,31 +11,63 @@ public class Video {
     private Date dataPublicacao;
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.duracao = duracao;
-        this.categoria = categoria;
+        setTitulo(titulo);
+        setDescricao(descricao);
+        setDuracao(duracao);
+        setCategoria(categoria);
+        setDataPublicacao(dataPublicacao);
+    }
+
+    public Date getDataPublicacao() {
+        return dataPublicacao;
+    }
+
+    private void setDataPublicacao(Date dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
 
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public int getDuracao() {
-        return duracao;
+    private void setCategoria(String categoria) {
+        if (categoria == null || categoria.trim().isEmpty()) {
+            throw new IllegalArgumentException("Categoria não pode ser nula!");
+        }
+        this.categoria = categoria;
     }
 
     public String getCategoria() {
         return categoria;
     }
 
-    public Date getDataPublicacao() {
-        return dataPublicacao;
+    private void setDuracao(int duracao) {
+        if (duracao <= 0) {
+            throw new IllegalArgumentException("Duração deve ser um número positivo!");
+        }
+        this.duracao = duracao;
+    }
+
+    public int getDuracao() {
+        return duracao;
+    }
+
+    private void setDescricao(String descricao) {
+        if (descricao == null || descricao.trim().isEmpty()) {
+            throw new IllegalArgumentException("Descrição não pode ser vazia!");
+        }
+        this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    private void setTitulo(String titulo) {
+        if (titulo == null || titulo.trim().isEmpty()) {
+            throw new IllegalArgumentException("Título não pode ser vazio!");
+        }
+        this.titulo = titulo;
+    }
+
+    public String getTitulo() {
+        return titulo;
     }
 
     @Override
