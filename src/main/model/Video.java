@@ -11,60 +11,29 @@ public class Video {
     private Date dataPublicacao;
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
-        setTitulo(titulo);
-        setDescricao(descricao);
-        setDuracao(duracao);
-        setCategoria(categoria);
-        setDataPublicacao(dataPublicacao);
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.duracao = duracao;
+        this.categoria = categoria;
+        this.dataPublicacao = dataPublicacao;
     }
 
     public Date getDataPublicacao() {
         return dataPublicacao;
     }
 
-    private void setDataPublicacao(Date dataPublicacao) {
-        this.dataPublicacao = dataPublicacao;
-    }
-
-    private void setCategoria(String categoria) {
-        if (categoria == null || categoria.trim().isEmpty()) {
-            throw new IllegalArgumentException("Categoria não pode ser nula!");
-        }
-        this.categoria = categoria;
-    }
-
     public String getCategoria() {
         return categoria;
-    }
-
-    private void setDuracao(int duracao) {
-        if (duracao <= 0) {
-            throw new IllegalArgumentException("Duração deve ser um número positivo!");
-        }
-        this.duracao = duracao;
     }
 
     public int getDuracao() {
         return duracao;
     }
 
-    private void setDescricao(String descricao) {
-        if (descricao == null || descricao.trim().isEmpty()) {
-            throw new IllegalArgumentException("Descrição não pode ser vazia!");
-        }
-        this.descricao = descricao;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
-    private void setTitulo(String titulo) {
-        if (titulo == null || titulo.trim().isEmpty()) {
-            throw new IllegalArgumentException("Título não pode ser vazio!");
-        }
-        this.titulo = titulo;
-    }
 
     public String getTitulo() {
         return titulo;
