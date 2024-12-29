@@ -3,7 +3,6 @@ package main.model;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 public class Video {
     private static ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(() -> new SimpleDateFormat("dd/MM/yyyy"));
@@ -13,11 +12,9 @@ public class Video {
     private String categoria;
     private Date dataPublicacao;
 
-    public static final String DATE_FORMAT = "dd/MM/yyyy";
 
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
-
         if (titulo == null || titulo.isEmpty()) {
             throw new IllegalArgumentException("O título não pode ser vazio");
         }
@@ -38,6 +35,7 @@ public class Video {
         this.dataPublicacao = dataPublicacao;
     }
 
+    // Métodos getters
     public Date getDataPublicacao() {
         return dataPublicacao;
     }
@@ -54,18 +52,18 @@ public class Video {
         return descricao;
     }
 
-
     public String getTitulo() {
         return titulo;
     }
 
+    // Método para converter o objeto Video em uma String
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        SimpleDateFormat sdf = DATE_FORMATTER.get(); // Usando o SimpleDateFormat do ThreadLocal
         return titulo + ";" + descricao + ";" + duracao + ";" + categoria + ";" + sdf.format(dataPublicacao);
     }
 
-
+    // Método estático para converter uma linha de texto em um objeto Video
     public static Video fromString(String linha) {
         try {
             String[] partes = linha.split(";");
@@ -74,13 +72,13 @@ public class Video {
             }
 
             String titulo = partes[0];
-            String descricao = partes[1];
+            String descricao = partes[1].trim();
             int duracao = Integer.parseInt(partes[2]);
             String categoria = partes[3];
-            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            SimpleDateFormat sdf = DATE_FORMATTER.get();
             Date dataPublicacao = sdf.parse(partes[4]);
 
-            if (descricao == null || descricao.trim().isEmpty()) {
+            if (descricao.isEmpty()) {
                 descricao = "Sem descrição";
             }
 

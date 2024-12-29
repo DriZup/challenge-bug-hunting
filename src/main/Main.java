@@ -10,6 +10,7 @@ import main.strategy.TitleSearchStrategy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,14 +28,13 @@ public class Main {
             System.out.println("4. Sair");
             System.out.print("Escolha uma opção: ");
 
-
             int opcao = -1;
             while (true) {
                 try {
                     String input = scanner.nextLine();
                     opcao = Integer.parseInt(input);
                     if (opcao >= 1 && opcao <= 4) {
-                        break;  // Quebra o loop se a entrada for válida
+                        break;
                     } else {
                         System.out.println("Opção inválida. Tente novamente.");
                         System.out.print("Escolha uma opção: ");
@@ -72,9 +72,23 @@ public class Main {
             String titulo = scanner.nextLine();
             System.out.print("Digite a descrição do vídeo: ");
             String descricao = scanner.nextLine();
-            System.out.print("Digite a duração do vídeo (em minutos): ");
-            int duracao = scanner.nextInt();
+
+            int duracao = 0;
+            while (duracao <= 0) {
+                try {
+                    System.out.print("Digite a duração do vídeo (em minutos): ");
+                    duracao = scanner.nextInt();
+                    if (duracao <= 0) {
+                        System.out.println("A duração deve ser maior que zero. Tente novamente.");
+                    }
+                } catch (InputMismatchException ex) {
+                    System.out.println("Valor inválido para a duração. Por favor, insira um número.");
+                    scanner.next();
+                }
+            }
+
             scanner.nextLine();
+
             System.out.print("Digite a categoria do vídeo: ");
             String categoria = scanner.nextLine();
             System.out.print("Digite a data de publicação (dd/MM/yyyy): ");
@@ -97,21 +111,20 @@ public class Main {
     private static void listVideos(VideoService videoService) {
         List<Video> videos = videoService.listVideos();
         if (videos.isEmpty()) {
-            System.out.println("Nenhum video encontrado!");
+            System.out.println("Nenhum vídeo encontrado!");
         } else {
             videos.forEach(System.out::println);
         }
     }
 
     private static void searchVideo(Scanner scanner, VideoService videoService, TitleSearchStrategy searchStrategy) {
-        System.out.println("Digite o título pra busca: ");
+        System.out.println("Digite o título para busca: ");
         String query = scanner.nextLine();
         List<Video> resultados = searchStrategy.search(videoService.listVideos(), query);
         if (resultados.isEmpty()) {
-            System.out.println("Nenhum vídeo encontrado com esse título: ");
+            System.out.println("Nenhum vídeo encontrado com esse título.");
         } else {
             resultados.forEach(System.out::println);
         }
-
     }
 }
