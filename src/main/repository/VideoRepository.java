@@ -1,6 +1,6 @@
-package repository;
+package main.repository;
 
-import model.Video;
+import main.model.Video;
 
 import java.util.List;
 
