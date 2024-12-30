@@ -3,14 +3,13 @@ package main.repository;
 import main.model.Video;
 import main.util.FileHandler;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileVideoRepository implements VideoRepository {
+public class VideoManager implements VideoRepository {
     private final FileHandler fileHandler;
 
-    public FileVideoRepository( String file) {
+    public VideoManager(String file) {
       this.fileHandler = new FileHandler(file);
     }
 

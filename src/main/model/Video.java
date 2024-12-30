@@ -2,17 +2,37 @@ package main.model;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class Video {
+    public static final List<Object> CATEGORIAS_VALIDAS = Arrays.asList("Filme", "Série", "Documentário");
     private String titulo;
     private String descricao;
     private int duracao; // em minutos
     private String categoria;
     private Date dataPublicacao;
+    public static final String DATE_FORMAT = "dd/MM/yyyy";
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
+        if (titulo == null || titulo.isEmpty()) {
+            throw new IllegalArgumentException("O título não pode ser nulo ou vazio.");
+        }
+        if (descricao == null || descricao.isEmpty()) {
+            throw new IllegalArgumentException("A descrição não pode ser nula ou vazia.");
+        }
+        if (duracao <= 0) {
+            throw new IllegalArgumentException("A duração deve ser maior que zero.");
+        }
+        if (categoria == null || categoria.isEmpty() || !CATEGORIAS_VALIDAS.contains(categoria)) {
+            throw new IllegalArgumentException("A categoria deve ser válida. Categorias permitidas: " + CATEGORIAS_VALIDAS);
+        }
+        if (dataPublicacao == null) {
+            throw new IllegalArgumentException("A data de publicação não pode ser nula.");
+        }
+
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
@@ -42,7 +62,8 @@ public class Video {
 
     @Override
     public String toString() {
-        return String.format("%s;%s;%d;%s;%s", titulo, descricao, duracao, categoria, dataPublicacao);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return String.format("%s;%s;%d;%s;%s", titulo, descricao, duracao, categoria, sdf.format(dataPublicacao));
     }
 
     public static Video fromString(String line) {

@@ -32,7 +32,6 @@ public class UserInteraction {
     }
     public Video getVideoDetails() {
         try {
-            scanner.nextLine(); // Consumir a quebra de linha
             System.out.print("Digite o título do vídeo: ");
             String titulo = scanner.nextLine();
             System.out.print("Digite a descrição do vídeo: ");
@@ -53,23 +52,31 @@ public class UserInteraction {
                 }
             }
 
-            System.out.print("Digite a categoria do vídeo: ");
-            String categoria = scanner.nextLine();
+            String categoria;
+            while (true) {
+                System.out.print("Digite a categoria do vídeo (Filme, Série, Documentário): ");
+                categoria = scanner.nextLine();
+                if (Video.CATEGORIAS_VALIDAS.contains(categoria)) {
+                    break;
+                } else {
+                    System.out.println("Categoria inválida! As categorias permitidas são: " + Video.CATEGORIAS_VALIDAS);
+                }
+            }
 
             Date datapublicacao;
             while (true) {
                 System.out.print("Digite a data de publicação (dd/MM/yyyy): ");
-
                 String dataStr = scanner.nextLine();
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-                sdf.setLenient(false);
                 try {
+                    SimpleDateFormat sdf = new SimpleDateFormat(Video.DATE_FORMAT);
+                    sdf.setLenient(false);
                     datapublicacao = sdf.parse(dataStr);
-                    break; // Sai do loop se a data for válida
+                    break;
                 } catch (ParseException e) {
                     System.out.println("Data inválida. Por favor, insira uma data no formato dd/MM/yyyy.");
                 }
             }
+
             return new Video(titulo, descricao, duracao, categoria, datapublicacao);
         } catch (Exception e) {
             System.out.println("Erro ao adicionar vídeo. Verifique os dados informados.");

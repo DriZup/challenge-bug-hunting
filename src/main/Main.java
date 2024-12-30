@@ -1,22 +1,19 @@
 package main;
 
 import main.model.Video;
-import main.repository.FileVideoRepository;
+import main.repository.VideoManager;
 import main.service.VideoService;
 import main.service.VideoServiceImpl;
 import main.strategy.SearchStrategy;
 import main.strategy.TitleSearchStrategy;
 import main.util.UserInteraction;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         UserInteraction userInteraction = new UserInteraction();
-        VideoService videoService = new VideoServiceImpl(new FileVideoRepository("videos.txt"));
+        VideoService videoService = new VideoServiceImpl(new VideoManager("videos.txt"));
         SearchStrategy searchStrategy = new TitleSearchStrategy();
 
         while (true) {
