@@ -1,7 +1,9 @@
 package main.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Video {
     private String titulo;
@@ -45,16 +47,40 @@ public class Video {
 
     public static Video fromString(String line) {
         try {
-            String[] parts = line.split(";");
-            return new Video(
-                    parts[0],
-                    parts[1],
-                    Integer.parseInt(parts[2]),
-                    parts[3],
-                    new Date(parts[4]));
+            String[] partes = line.split(";");
+            if (partes.length != 5) {
+                throw new IllegalArgumentException("Formato inválido para deserialização.");
+            }
+
+            String titulo = partes[0];
+            String descricao = partes[1];
+            int duracao = Integer.parseInt(partes[2]);
+            String categoria = partes[3];
+            Date dataPublicacao = parseData(partes[4]);
+
+            return new Video(titulo, descricao, duracao, categoria, dataPublicacao);
         } catch (Exception e) {
             System.out.println("Erro ao deserializar vídeo: " + e.getMessage());
-            return null; // Ignora erros de parsing
+            return null;
         }
+    }
+
+    private static Date parseData(String data) throws ParseException {
+        String[] formatos = {
+                "dd/MM/yyyy",
+                "EEE MMM dd HH:mm:ss zzz yyyy"
+        };
+
+        for (String formato : formatos) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat(formato, Locale.ENGLISH); // Define o Locale como ENGLISH
+                sdf.setLenient(true);
+                return sdf.parse(data);
+            } catch (ParseException ignored) {
+
+            }
+        }
+
+        throw new ParseException("Formato de data inválido: " + data, 0);
     }
 }

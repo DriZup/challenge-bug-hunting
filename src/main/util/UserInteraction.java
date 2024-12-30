@@ -21,9 +21,15 @@ public class UserInteraction {
     }
 
     public int getOption() {
-        return scanner.nextInt();
+        while (true) {
+            try {
+                System.out.print("Escolha uma opção: ");
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida! Por favor, insira um número inteiro.");
+            }
+        }
     }
-
     public Video getVideoDetails() {
         try {
             scanner.nextLine(); // Consumir a quebra de linha
