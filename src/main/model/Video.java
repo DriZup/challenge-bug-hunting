@@ -40,16 +40,15 @@ public class Video {
 
     @Override
     public String toString() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return titulo + ";" + descricao + ";" + duracao + ";" + categoria + ";" + sdf.format(dataPublicacao);
+        return String.format("%s;%s;%d;%s;%s", titulo, descricao, duracao, categoria, dataPublicacao);
     }
 
     public static Video fromString(String linha) {
         try {
             String[] partes = linha.split(";");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
             return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
         } catch (Exception e) {
+            System.out.println("Erro ao deserializar vídeo: " + e.getMessage());
             return null; // Ignora erros de parsing
         }
     }
