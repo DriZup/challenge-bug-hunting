@@ -9,8 +9,8 @@ public class FileHandler {
     private final File file;
 
 
-    public FileHandler(String filepath) {
-        this.file = new File(filepath);
+    public FileHandler(String filePath) {
+        this.file = new File(filePath);
         try {
             if (file.createNewFile()) {
                 System.out.println("Arquivo criado: " + file.getName());

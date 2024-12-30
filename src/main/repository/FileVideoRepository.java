@@ -10,9 +10,10 @@ import java.util.List;
 public class FileVideoRepository implements VideoRepository {
     private final FileHandler fileHandler;
 
-    public FileVideoRepository(String filePath, FileHandler fileHandler) {
-        this.fileHandler = fileHandler;
+    public FileVideoRepository( String file) {
+      this.fileHandler = new FileHandler(file);
     }
+
 
     @Override
     public void save(Video video) {
