@@ -28,10 +28,10 @@ Antes de começar, certifique-se de que você tem as ferramentas necessárias in
 
 O código será dividido em pacotes para organizar melhor as responsabilidades:
 
-- model: Contém a classe Video.
-- repository: Contém a interface VideoRepository e sua implementação FileVideoRepository.
-- service: Contém a interface VideoService e sua implementação VideoServiceImpl.
-- strategy: Contém estratégias para busca de vídeos (SearchStrategy).
+- main.model: Contém a classe Video.
+- main.repository: Contém a interface VideoRepository e sua implementação FileVideoRepository.
+- main.service: Contém a interface VideoService e sua implementação VideoServiceImpl.
+- main.strategy: Contém estratégias para busca de vídeos (SearchStrategy).
 - main: Contém a classe principal Main.
 
 Você deve clonar o repositório e analisar o código existente para entender como ele funciona.

@@ -1,11 +1,12 @@
 package main;
 
-import model.Video;
-import repository.FileVideoRepository;
-import service.VideoService;
-import service.VideoServiceImpl;
-import strategy.SearchStrategy;
-import strategy.TitleSearchStrategy;
+import main.model.Video;
+import main.repository.FileVideoRepository;
+import main.service.VideoService;
+import main.service.VideoServiceImpl;
+import main.strategy.SearchStrategy;
+import main.strategy.TitleSearchStrategy;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

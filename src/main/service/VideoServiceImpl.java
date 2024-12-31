@@ -1,7 +1,8 @@
-package service;
+package main.service;
 
-import model.Video;
-import repository.VideoRepository;
+import main.model.Video;
+import main.repository.VideoRepository;
+
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
-package strategy;
+package main.strategy;
 
-import model.Video;
+import main.model.Video;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
