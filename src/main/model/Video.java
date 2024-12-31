@@ -1,5 +1,6 @@
 package main.model;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -11,6 +12,9 @@ public class Video {
     private Date dataPublicacao;
 
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
+        if (titulo == null || titulo.isEmpty() || descricao == null || descricao.isEmpty() || duracao < 0 || categoria == null || categoria.isEmpty() || dataPublicacao == null) {
+            throw new IllegalArgumentException(("Dados inválidos para o vídeo"));
+        }
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
@@ -44,13 +48,14 @@ public class Video {
         return titulo + ";" + descricao + ";" + duracao + ";" + categoria + ";" + sdf.format(dataPublicacao);
     }
 
-    public static Video fromString(String linha) {
-        try {
-            String[] partes = linha.split(";");
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
-        } catch (Exception e) {
-            return null; // Ignora erros de parsing
+    public static Video fromString(String linha) throws ParseException {
+        String[] partes = linha.split(";");
+        if (partes.length != 5) {
+            throw new IllegalArgumentException("A linha deve conter exatamente 5 partes separadas por ';'.");
         }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return new Video(partes[0], partes[1], Integer.parseInt(partes[2]), partes[3], sdf.parse(partes[4]));
     }
+
 }
