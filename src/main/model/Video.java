@@ -11,10 +11,24 @@ public class Video {
     private String categoria;
     private Date dataPublicacao;
 
+
     public Video(String titulo, String descricao, int duracao, String categoria, Date dataPublicacao) {
-        if (titulo == null || titulo.isEmpty() || descricao == null || descricao.isEmpty() || duracao < 0 || categoria == null || categoria.isEmpty() || dataPublicacao == null) {
-            throw new IllegalArgumentException(("Dados inválidos para o vídeo"));
+        if (titulo == null || titulo.isEmpty()) {
+            throw new IllegalArgumentException("O título não pode ser nulo ou vazio.");
         }
+        if (descricao == null || descricao.isEmpty()) {
+            throw new IllegalArgumentException("A descrição não pode ser nula ou vazia.");
+        }
+        if (duracao < 0) {
+            throw new IllegalArgumentException("A duração não pode ser negativa.");
+        }
+        if (categoria == null || categoria.isEmpty()) {
+            throw new IllegalArgumentException("A categoria não pode ser nula ou vazia.");
+        }
+        if (dataPublicacao == null) {
+            throw new IllegalArgumentException("A dataPublicacao não pode ser nula.");
+        }
+
         this.titulo = titulo;
         this.descricao = descricao;
         this.duracao = duracao;
