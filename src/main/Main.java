@@ -1,22 +1,22 @@
 package main;
 
 import main.model.Video;
-import main.repository.FileVideoRepository;
 import main.service.VideoService;
-import main.service.VideoServiceImpl;
 import main.strategy.SearchStrategy;
 import main.strategy.TitleSearchStrategy;
+import main.utils.FileUtils;
 
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Scanner scanner = new Scanner(System.in);
-        VideoService videoService = new VideoServiceImpl(new FileVideoRepository("videos.txt"));
+        VideoService videoService = new VideoService();
         SearchStrategy searchStrategy = new TitleSearchStrategy();
 
         while (true) {
