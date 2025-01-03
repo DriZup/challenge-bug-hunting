@@ -22,7 +22,8 @@ public class VideoManager {
     }
 
     public void run() {
-        while (true) {
+        boolean isRunning = true; // Variável para controlar o loop
+        while (isRunning) {
             displayMenu();
             int option = getUserInputAsInt("Escolha uma opção: ");
 
