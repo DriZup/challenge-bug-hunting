@@ -1,8 +1,9 @@
-package repository;
+package main.repository;
 
-import model.Video;
+import main.model.Video;
 
 import java.io.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,8 @@ public class FileVideoRepository implements VideoRepository {
             }
         } catch (IOException e) {
             // Ignorar erros por enquanto
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         return videos;
     }
