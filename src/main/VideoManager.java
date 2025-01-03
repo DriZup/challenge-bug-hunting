@@ -80,6 +80,7 @@ public class VideoManager {
 
         if(query.isEmpty()){
             System.out.println("A busca não pode ser vazia. Por favor, insira um título válido.");
+            return;
         }
         List<Video> results = searchStrategy.search(videoService.listVideos(), query);
         if (results.isEmpty()) {
