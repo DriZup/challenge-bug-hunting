@@ -77,6 +77,10 @@ public class VideoManager {
 
     private void searchVideos() {
         String query = getUserInput("Digite o título para busca: ");
+
+        if(query.isEmpty()){
+            System.out.println("A busca não pode ser vazia. Por favor, insira um título válido.");
+        }
         List<Video> results = searchStrategy.search(videoService.listVideos(), query);
         if (results.isEmpty()) {
             System.out.println("Nenhum vídeo encontrado para a busca: " + query);
