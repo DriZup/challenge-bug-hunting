@@ -84,8 +84,10 @@ public class VideoManager {
         }
         List<Video> results = searchStrategy.search(videoService.listVideos(), query);
         if (results.isEmpty()) {
-            System.out.println("Nenhum vídeo encontrado para a busca: " + query);
+            System.out.printf("Nenhum vídeo encontrado para a busca: \"%s\".%n", query);
         } else {
+            System.out.println("Resultados encontrados:");
+
             results.forEach(System.out::println);
         }
     }
