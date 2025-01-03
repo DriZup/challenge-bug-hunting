@@ -50,7 +50,12 @@ public class VideoManager {
     }
 
     private void addVideo() {
-        String title = getUserInput("Digite o título do vídeo: ");
+        String title = getUserInput("Digite o título do vídeo: ").trim();
+        if (title.isEmpty()) {
+            System.out.println("Erro: O título do vídeo não pode ser vazio.");
+            return;
+        }
+
         String description = getUserInput("Digite a descrição do vídeo: ");
         int duration;
         do {
