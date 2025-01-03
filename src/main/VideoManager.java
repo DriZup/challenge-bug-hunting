@@ -1,5 +1,6 @@
 package main;
 
+import main.enums.VideoCategory;
 import main.model.Video;
 import main.service.VideoService;
 import main.strategy.SearchStrategy;
@@ -57,12 +58,20 @@ public class VideoManager {
                 System.out.println("Erro: A duração do vídeo deve ser um número positivo. Tente novamente.");
             }
         } while (duration <= 0);
-        String category = getUserInput("Digite a categoria do vídeo: ");
+        VideoCategory category = null;
+        do {
+            String categoryInput = getUserInput("Digite a categoria do vídeo (FILME, SERIE, DOCUMENTARIO): ");
+            try {
+                category = VideoCategory.fromString(categoryInput);
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (category == null);
         String publicationDateStr = getUserInput("Digite a data de publicação (dd/MM/yyyy): ");
 
         try {
             Date publicationDate = parseDate(publicationDateStr);
-            Video video = new Video(title, description, duration, category, publicationDate);
+            Video video = new Video(title, description, duration, category.name(), publicationDate);
             videoService.addVideo(video);
             System.out.println("Vídeo adicionado com sucesso!");
         }catch (IllegalArgumentException e) {
