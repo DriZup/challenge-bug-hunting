@@ -59,6 +59,8 @@ public class VideoManager {
             Video video = new Video(title, description, duration, category, publicationDate);
             videoService.addVideo(video);
             System.out.println("Vídeo adicionado com sucesso!");
+        }catch (IllegalArgumentException e) {
+            System.out.println("Erro: " + e.getMessage());
         } catch (Exception e) {
             System.out.println("Erro ao adicionar vídeo. Verifique os dados e tente novamente.");
         }
