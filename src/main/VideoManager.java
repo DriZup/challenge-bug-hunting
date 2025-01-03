@@ -50,7 +50,13 @@ public class VideoManager {
     private void addVideo() {
         String title = getUserInput("Digite o título do vídeo: ");
         String description = getUserInput("Digite a descrição do vídeo: ");
-        int duration = getUserInputAsInt("Digite a duração do vídeo (em minutos): ");
+        int duration;
+        do {
+            duration = getUserInputAsInt("Digite a duração do vídeo (em minutos): ");
+            if (duration <= 0) {
+                System.out.println("Erro: A duração do vídeo deve ser um número positivo. Tente novamente.");
+            }
+        } while (duration <= 0);
         String category = getUserInput("Digite a categoria do vídeo: ");
         String publicationDateStr = getUserInput("Digite a data de publicação (dd/MM/yyyy): ");
 
